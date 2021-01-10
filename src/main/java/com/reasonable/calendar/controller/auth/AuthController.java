@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AuthController {
-    @PostMapping(value = "auth/")
-    private void signUp() {
-
+    @PostMapping(value = "auth/signup")
+    private String signUp() {
+        return "받았음";
     }
 }
