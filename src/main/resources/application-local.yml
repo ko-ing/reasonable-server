@@ -1,6 +1,19 @@
+
+server:
+  port: 10002
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    context-path: /
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/reasonable
     username: hongseok
     password: hongseok
+
+allow-origin: http://localhost:3000
+

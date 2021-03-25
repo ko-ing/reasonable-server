@@ -1,20 +1,18 @@
-create sequence if not exists user_id_seq;
 
 create table users
 (
-    user_id serial not null,
-    identification text not null ,
+    user_id text not null,
+    user_account_id text not null ,
     password text not null,
+    email text ,
     name text not null,
     primary key(user_id)
 );
 
-create sequence if not exists post_id_seq;
-
 create table posts
 (
-    post_id serial  not  null,
-    user_id integer references users (user_id),
+    post_id text not null,
+    user_id text,
     text text,
     tags text,
     created_at timestamp default now() not null,
@@ -22,12 +20,10 @@ create table posts
     primary key(post_id)
 );
 
-create sequence if not exists photo_id_seq;
-
 create table photos
 (
-    photo_id serial not null,
-    post_id integer not null references posts (post_id),
+    photo_id text not null,
+    post_id text,
     s3_url text not null,
     analyzed_raw text,
     photo_taken_at timestamp not null,

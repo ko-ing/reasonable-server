@@ -13,13 +13,14 @@ repositories {
 }
 
 dependencies {
-    compile "org.projectlombok:lombok:1.18.8"
-    annotationProcessor 'org.projectlombok:lombok:1.18.8'
-
+    compile "org.projectlombok:lombok:1.18.16"
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.3.6.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.3.6.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.3.6.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.3.6.RELEASE'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.3.6.RELEASE'
 
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
