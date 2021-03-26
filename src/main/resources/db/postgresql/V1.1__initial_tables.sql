@@ -1,8 +1,8 @@
 
 create table users
 (
-    user_id text not null,
-    user_account_id text not null ,
+    user_id uuid not null,
+    user_account_id text not null unique,
     password text not null,
     email text ,
     name text not null,
@@ -11,8 +11,8 @@ create table users
 
 create table posts
 (
-    post_id text not null,
-    user_id text,
+    post_id uuid not null,
+    user_id uuid,
     text text,
     tags text,
     created_at timestamp default now() not null,
@@ -22,8 +22,8 @@ create table posts
 
 create table photos
 (
-    photo_id text not null,
-    post_id text,
+    photo_id uuid not null,
+    post_id uuid,
     s3_url text not null,
     analyzed_raw text,
     photo_taken_at timestamp not null,
