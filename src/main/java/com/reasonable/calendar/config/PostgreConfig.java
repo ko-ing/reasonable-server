@@ -13,7 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-public class PostgreConfiguration {
+public class PostgreConfig {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
