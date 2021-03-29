@@ -39,7 +39,7 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER)//Lazy는 transaction으로묶어야할걸
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)//Lazy는 transaction으로묶어야할걸
     @JoinColumn(name = "user_id")
     private Set<Authority> authorities;
 }

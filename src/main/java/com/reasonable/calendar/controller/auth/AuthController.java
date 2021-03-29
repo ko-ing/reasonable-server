@@ -23,18 +23,18 @@ public class AuthController {
         userService.add(dto);
     }
 
-    @PostMapping(value= "/auth/signIn")
-    public AuthTokenDto signIn(@RequestBody SignInDto dto, HttpSession session) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getUserAccountId(), dto.getPassword());
-        Authentication authentication = authenticationProvider.authenticate(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-
-        UserDto user = UserDto.from(userService.findByAccountId(dto.getUserAccountId()));
-        return AuthTokenDto.builder()
-            .userAccountId(user.getUserAccountId())
-            .authorities(user.getAuthorities())
-            .sessionId(session.getId())
-            .build();
-    }
+//    @PostMapping(value= "/auth/signIn")
+//    public AuthTokenDto signIn(@RequestBody SignInDto dto, HttpSession session) {
+//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getUserAccountId(), dto.getPassword());
+//        Authentication authentication = authenticationProvider.authenticate(token);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+//
+//        UserDto user = UserDto.from(userService.findByAccountId(dto.getUserAccountId()));
+//        return AuthTokenDto.builder()
+//            .userAccountId(user.getUserAccountId())
+//            .authorities(user.getAuthorities())
+//            .sessionId(session.getId())
+//            .build();
+//    }
 }

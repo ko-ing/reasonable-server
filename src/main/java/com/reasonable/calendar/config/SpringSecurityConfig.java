@@ -1,12 +1,15 @@
 package com.reasonable.calendar.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reasonable.calendar.domain.auth.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +29,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private String allowOrigin;
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final ReasonableAuthenticationEntryPoint authenticationEntryPoint;
+    private final ReasonableAuthenticationFailureHandler authenticationFailureHandler;
+    private final ReasonableAuthenticationSuccessHandler authenticationSuccessHandler;
+    private final ReasonableLogoutSuccessHandler logoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,18 +43,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .csrf().disable()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint())
+                .authenticationEntryPoint(authenticationEntryPoint)
             .and()
 //            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .formLogin()
                 .loginProcessingUrl("/auth/signIn")
                 .usernameParameter("userAccountId").passwordParameter("password")
-                .successHandler(authenticationSuccessHandler())
-                .failureHandler(authenticationFailureHandler())
+                .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
             .and()
                 .logout()
                 .logoutUrl("/auth/signOut")
-                .logoutSuccessHandler(logoutSuccessHandler())
+                .logoutSuccessHandler(logoutSuccessHandler)
             .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -57,9 +64,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
             .and()
-                .authenticationProvider(authenticationProvider())
+//                .authenticationProvider(authenticationProvider())
 
         ;
+    }
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -73,25 +86,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler(){
-        return new ReasonableAuthenticationSuccessHandler();
-    }
-
-    @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler(){
-        return new ReasonableAuthenticationFailureHandler();
-    }
-
-    @Bean
-    public LogoutSuccessHandler logoutSuccessHandler() {
-        return new ReasonableLogoutSuccessHandler();
-    }
-
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
-        return new ReasonableAuthenticationEntryPoint();
     }
 }

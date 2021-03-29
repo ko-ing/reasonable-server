@@ -1,10 +1,15 @@
 package com.reasonable.calendar.config;
 
+import com.reasonable.calendar.controller.auth.AuthTokenDto;
+import com.reasonable.calendar.domain.auth.Authority;
+import com.reasonable.calendar.util.JsonUtil;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
@@ -12,7 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.stream.Collectors;
 
+@Component
 public class ReasonableAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
@@ -22,6 +30,22 @@ public class ReasonableAuthenticationSuccessHandler extends SimpleUrlAuthenticat
     }
 
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        out.print(JsonUtil.write(
+            AuthTokenDto.builder()
+                .userAccountId(authentication.getName())
+                .authorities(authentication
+                    .getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toSet()))
+                .sessionId(request.getSession().getId())
+                .build()
+            )
+        );
+        out.flush();
+
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest == null) {
             clearAuthenticationAttributes(request); return;
@@ -35,5 +59,4 @@ public class ReasonableAuthenticationSuccessHandler extends SimpleUrlAuthenticat
         }
         clearAuthenticationAttributes(request);
     }
-
 }
