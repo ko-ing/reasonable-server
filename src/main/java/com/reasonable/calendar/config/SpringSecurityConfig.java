@@ -1,6 +1,5 @@
 package com.reasonable.calendar.config;
 
-import com.google.common.collect.ImmutableList;
 import com.reasonable.calendar.domain.auth.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,15 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsUtils;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -37,24 +32,33 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .httpBasic()
             .and()
+                .cors()
+            .and()
+                .csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint())
+            .and()
+//            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .formLogin()
+                .loginProcessingUrl("/auth/signIn")
+                .usernameParameter("userAccountId").passwordParameter("password")
+                .successHandler(authenticationSuccessHandler())
+                .failureHandler(authenticationFailureHandler())
+            .and()
+                .logout()
+                .logoutUrl("/auth/signOut")
+                .logoutSuccessHandler(logoutSuccessHandler())
+            .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/hello-calendar", "/auth/signIn", "/auth/signUp").permitAll()
-                .antMatchers("/user").hasAuthority("USER")
-                .antMatchers("/admin").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST,"/hello-calendar", "/auth/signIn", "/auth/signUp").permitAll()
+//                .antMatchers("/user").hasAuthority("USER")
+//                .antMatchers("/admin").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
             .and()
-                .formLogin().loginPage("/auth/signIn")
-                .usernameParameter("userAccountId").passwordParameter("password")
-            .and()
-                .logout().invalidateHttpSession(true)
-            .and()
                 .authenticationProvider(authenticationProvider())
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .and()
-            .cors()
-        //TODO: 서버에서 localhost:10002로 302 반환 : 원래는 /sign/up 아닌가?
+
         ;
     }
 
@@ -71,19 +75,23 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        final CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(ImmutableList.of(allowOrigin));
-//        configuration.setAllowedOriginPatterns(Collections.singletonList(allowOrigin));
-//        configuration.setAllowedMethods(ImmutableList.of("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
-//        configuration.setAllowCredentials(true);
-//        // setAllowedHeaders is important! Without it, OPTIONS preflight request
-//        // will fail with 403 Invalid CORS request
-//        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
-//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        return new ReasonableAuthenticationSuccessHandler();
+    }
 
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler(){
+        return new ReasonableAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new ReasonableLogoutSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return new ReasonableAuthenticationEntryPoint();
+    }
 }
