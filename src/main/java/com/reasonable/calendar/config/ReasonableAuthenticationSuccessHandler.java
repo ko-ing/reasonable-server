@@ -1,7 +1,6 @@
 package com.reasonable.calendar.config;
 
 import com.reasonable.calendar.controller.auth.AuthTokenDto;
-import com.reasonable.calendar.domain.auth.Authority;
 import com.reasonable.calendar.util.JsonUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +14,6 @@ import org.springframework.util.StringUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.stream.Collectors;
@@ -40,7 +38,7 @@ public class ReasonableAuthenticationSuccessHandler extends SimpleUrlAuthenticat
                     .getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toSet()))
-                .sessionId(request.getSession().getId())
+//                .sessionId(request.getSession().getId()) //JSESSIONID로 response header에 포함되어 있음
                 .build()
             )
         );

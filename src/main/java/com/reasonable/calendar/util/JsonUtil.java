@@ -19,23 +19,23 @@ public class JsonUtil {
         return string;
     }
 
-//    public static <T> T read(String json, Class<T> clazz) {
-//        T object = null;
-//        try {
-//            object = objectMapper.readValue(json, clazz);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//        return object;
-//    }
-//
-//    public static <T> T read(String json, TypeReference<T> clazz) {
-//        T object = null;
-//        try {
-//            object = objectMapper.readValue(json, clazz);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//        return object;
-//    }
+    public static <T> T read(String json, Class<T> clazz) {
+        T object = null;
+        try {
+            object = objectMapper.readValue(json, clazz);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+    public static <T> T read(String json, TypeReference<T> clazz) {
+        T object = null;
+        try {
+            object = objectMapper.readValue(json, clazz);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
 }

@@ -1,13 +1,11 @@
 package com.reasonable.calendar.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reasonable.calendar.domain.auth.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,10 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsUtils;
 
 @Configuration
@@ -45,7 +39,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
             .and()
-//            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .formLogin()
                 .loginProcessingUrl("/auth/signIn")
                 .usernameParameter("userAccountId").passwordParameter("password")
@@ -53,7 +46,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(authenticationFailureHandler)
             .and()
                 .logout()
-                .logoutUrl("/auth/signOut")
+                .logoutUrl("/auth/signOff")
                 .logoutSuccessHandler(logoutSuccessHandler)
             .and()
                 .authorizeRequests()
@@ -64,8 +57,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
             .and()
-//                .authenticationProvider(authenticationProvider())
-
         ;
     }
 
@@ -77,8 +68,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsServiceImpl);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();provider.setUserDetailsService(userDetailsServiceImpl);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }

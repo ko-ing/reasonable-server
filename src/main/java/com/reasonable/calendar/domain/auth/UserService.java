@@ -1,5 +1,6 @@
 package com.reasonable.calendar.domain.auth;
 
+import com.reasonable.calendar.controller.auth.SignOutDto;
 import com.reasonable.calendar.controller.auth.SignUpDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +31,7 @@ public class UserService {
 
     }
 
-    public void delete() {
+    public void delete(SignOutDto dto) {
 
     }
 }

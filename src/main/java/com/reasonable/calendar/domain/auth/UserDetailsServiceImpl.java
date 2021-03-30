@@ -24,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         ).orElseThrow(
             () -> new UsernameNotFoundException("no user name: " + accountId)
         );
-//        Set<Authority> authorities = userAuthorityService.findAuthorityByUser(user);
         return UserDetailsImpl.from(user);
     }
 }
