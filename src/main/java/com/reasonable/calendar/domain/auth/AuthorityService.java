@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 public class AuthorityService {
     private final AuthorityRepository authorityRepository;
 
-    public void add() {
-
+    public void add(Authority authority) {
+        authorityRepository.save(authority);
     }
 
 //    public Authority find() {

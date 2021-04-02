@@ -14,13 +14,21 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void add(SignUpDto dto) {
-        userRepository.save(User.builder()
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public User save(SignUpDto dto) {
+        return this.save(User.builder()
             .name(dto.getUserName())
             .email(dto.getEmail())
             .password(passwordEncoder.encode((dto.getPassword())))
             .userAccountId(dto.getUserAccountId())
             .build());
+    }
+
+    public boolean checkExistence(String accountId) {
+        return userRepository.existsByUserAccountId(accountId);
     }
 
     public User findByAccountId(String accountId) {

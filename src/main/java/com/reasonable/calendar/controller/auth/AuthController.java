@@ -1,8 +1,8 @@
 package com.reasonable.calendar.controller.auth;
 
+import com.reasonable.calendar.domain.auth.UserAuthorityService;
 import com.reasonable.calendar.domain.auth.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
-    private final AuthenticationProvider authenticationProvider;
+    private final UserAuthorityService userAuthorityService;
 
     @PostMapping(value = "/auth/signUp")
     public void signUp(@RequestBody SignUpDto dto) {
         // fixme: validate before inserting
-        userService.add(dto);
+        userAuthorityService.checkAndAddUser(dto);
     }
 
     @PostMapping(value = "/auth/signOut")
@@ -24,4 +24,5 @@ public class AuthController {
         //fixme: validate before deleting
         userService.delete(dto);
     }
+
 }
