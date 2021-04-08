@@ -22,6 +22,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${allow-origin}")
     private String allowOrigin;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final ReasonableAuthenticationEntryPoint authenticationEntryPoint;
     private final ReasonableAuthenticationFailureHandler authenticationFailureHandler;
@@ -52,10 +54,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(HttpMethod.POST,"/hello-calendar", "/auth/signIn", "/auth/signUp").permitAll()
-                .antMatchers("/user").hasAuthority("USER")
-                .antMatchers("/admin").hasAuthority("ADMIN")
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST,"/hello-calendar", "/auth/signIn", "/auth/signUp", "/photo").permitAll()
+//                .antMatchers("/user").hasRole("USER")
+//                .antMatchers("/admin").hasRole("ADMIN")
+//                .antMatchers("/photo").hasRole("USER")
+//                .antMatchers("/photo").hasAuthority("ADMIN")
+
+            .anyRequest().authenticated()
             .and()
         ;
     }
@@ -63,19 +68,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
+        builder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder);
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsServiceImpl);
-        provider.setPasswordEncoder(passwordEncoder());
+        provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

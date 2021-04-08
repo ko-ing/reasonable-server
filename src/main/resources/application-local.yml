@@ -17,3 +17,14 @@ spring:
 
 allow-origin: http://localhost:3000
 
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIA4REP2VDLTURRIO55
+      secretKey: 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
+    s3:
+      bucket: reasonable-photo
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

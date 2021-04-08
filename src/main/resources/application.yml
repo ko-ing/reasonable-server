@@ -4,3 +4,4 @@ spring:
     url: jdbc:postgresql://localhost:5432/reasonable
     username: hongseok
     password: hongseok
+
