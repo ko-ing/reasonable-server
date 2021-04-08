@@ -20,8 +20,8 @@ allow-origin: http://localhost:3000
 cloud:
   aws:
     credentials:
-      accessKey: AKIA4REP2VDLTURRIO55
-      secretKey: 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
+      accessKey: AKIA4REP2VDL6FLURBXM
+      secretKey: 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
     s3:
       bucket: reasonable-photo
     region:

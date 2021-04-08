@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class AuthorityService {
     private final AuthorityRepository authorityRepository;
 
-    public void add(Authority authority) {
+    public void save(Authority authority) {
         authorityRepository.save(authority);
     }
 
