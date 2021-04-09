@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @Builder
 public class UserDetailsImpl implements UserDetails {
-    private String accountId;
+    private String userId;
     private String password;
     private Set<Authority> authorities;
     private Boolean accountNonExpired;
@@ -31,7 +31,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return accountId;
+        return userId;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetails from(User user) {
         return UserDetailsImpl.builder()
-            .accountId(user.getUserId().toString())
+            .userId(user.getUserId().toString())
             .password(user.getPassword())
             .authorities(user.getAuthorities())
             .accountNonExpired(true)

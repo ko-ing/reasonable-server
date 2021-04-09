@@ -6,6 +6,8 @@ create table users
     password text not null,
     email text ,
     name text not null,
+    created_at timestamp default now(),
+    updated_at timestamp default now(),
     primary key(user_id)
 );
 
@@ -15,20 +17,20 @@ create table posts
     user_id uuid,
     text text,
     tags text,
-    created_at timestamp default now() not null,
-    updated_at timestamp default now() not null,
+    created_at timestamp default now(),
+    updated_at timestamp default now(),
     primary key(post_id)
 );
 
 create table photos
 (
     photo_id uuid not null,
-    post_id uuid,
+    user_id uuid,
     s3_url text not null,
     analyzed_raw text,
     photo_taken_at timestamp not null,
-    created_at timestamp default now() not null,
-    updated_at timestamp default now() not null,
+    created_at timestamp default now(),
+    updated_at timestamp default now(),
     primary key(photo_id)
 );
 

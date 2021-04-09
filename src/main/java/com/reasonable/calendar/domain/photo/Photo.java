@@ -29,8 +29,8 @@ public class Photo extends BaseEntity {
     @Column(name = "photo_id")
     private UUID photoId;
 
-    @Column(name = "post_id")
-    private UUID postId;
+    @Column(name = "user_id")
+    private UUID userId;
 
     @Column(name = "s3_url")
     private String s3Url;

@@ -1,5 +1,6 @@
 package com.reasonable.calendar.domain.post;
 
+import com.reasonable.calendar.domain.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Table(name = "posts", schema = "reasonable_schema")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -33,10 +34,4 @@ public class Post {
 
     @Column(name = "tags")
     private String tags;
-
-    @Column(name = "created_at")
-    private String createdAt;
-
-    @Column(name = "updated_at")
-    private String updatedAt;
 }

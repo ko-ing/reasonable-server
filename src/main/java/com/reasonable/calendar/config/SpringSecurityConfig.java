@@ -55,6 +55,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(HttpMethod.POST,"/hello-calendar", "/auth/signIn", "/auth/signUp", "/photo").permitAll()
+                .antMatchers(HttpMethod.GET,"/photo").permitAll()
+
 //                .antMatchers("/user").hasRole("USER")
 //                .antMatchers("/admin").hasRole("ADMIN")
 //                .antMatchers("/photo").hasRole("USER")
