@@ -1,5 +1,6 @@
 package com.reasonable.calendar.domain.photo;
 
+import com.reasonable.calendar.domain.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Table(name = "photos", schema = "reasonable_schema")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Photo {
+public class Photo extends BaseEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -39,10 +40,4 @@ public class Photo {
 
     @Column(name = "photo_taken_at")
     private Date takenAt;
-
-    @Column(name = "created_at")
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    private Date updatedAt;
 }

@@ -12,5 +12,10 @@ public class PhotoService {
         return photoRepository.save(photo);
     }
 
-
+    public Photo save(PhotoDto vo, String url) {
+        return this.save(Photo.builder()
+            .s3Url(url)
+            .takenAt(vo.getTakenAt())
+            .build());
+    }
 }

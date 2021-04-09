@@ -56,7 +56,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetails from(User user) {
         return UserDetailsImpl.builder()
-            .accountId(user.getUserAccountId())
+            .accountId(user.getUserId().toString())
             .password(user.getPassword())
             .authorities(user.getAuthorities())
             .accountNonExpired(true)
