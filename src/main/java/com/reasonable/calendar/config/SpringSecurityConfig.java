@@ -1,8 +1,8 @@
 package com.reasonable.calendar.config;
 
+import com.reasonable.calendar.domain.auth.AuthorityName;
 import com.reasonable.calendar.domain.auth.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsUtils;
 
@@ -19,11 +18,7 @@ import org.springframework.web.cors.CorsUtils;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Value("${allow-origin}")
-    private String allowOrigin;
-
     private final PasswordEncoder passwordEncoder;
-
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final ReasonableAuthenticationEntryPoint authenticationEntryPoint;
     private final ReasonableAuthenticationFailureHandler authenticationFailureHandler;
@@ -55,13 +50,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(HttpMethod.POST,"/hello-calendar", "/auth/signIn", "/auth/signUp", "/photo").permitAll()
-                .antMatchers(HttpMethod.GET,"/photo").permitAll()
-
-//                .antMatchers("/user").hasRole("USER")
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/photo").hasRole("USER")
-//                .antMatchers("/photo").hasAuthority("ADMIN")
-
+                .antMatchers("/").hasAuthority(AuthorityName.USER.name())
             .anyRequest().authenticated()
             .and()
         ;

@@ -17,16 +17,16 @@ public class PhotoS3Service {
     private final PhotoService photoService;
     private final S3Service s3Service;
 
-    public void savePhoto(PhotoDto photo) {
+    public void save(PhotoDto dto) {
         try {
-            String url = s3Service.save(photo.getPhoto());
-            photoService.save(photo, url);
+            String url = s3Service.save(dto.getPhoto());
+            photoService.save(dto, url);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public List<String> getPhotoUrlByUserId(String userId) {
+    public List<String> find(String userId) {
         List<Photo> photos = photoService.find(userId);
         return photos.stream().map(Photo::getS3Url).collect(Collectors.toList());
     }

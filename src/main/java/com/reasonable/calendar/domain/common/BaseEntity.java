@@ -9,6 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 @MappedSuperclass
@@ -16,7 +17,7 @@ import java.util.Date;
 public abstract class BaseEntity implements Serializable {
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    private Date createdAt;
+    private Calendar createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")

@@ -8,10 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Data
 @Builder
@@ -39,5 +37,5 @@ public class Photo extends BaseEntity {
     private String analyzedRaw;
 
     @Column(name = "photo_taken_at")
-    private Date takenAt;
+    private LocalDateTime takenAt;
 }
