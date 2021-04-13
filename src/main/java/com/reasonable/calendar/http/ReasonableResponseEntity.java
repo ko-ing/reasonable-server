@@ -22,6 +22,6 @@ public class ReasonableResponseEntity extends ResponseEntity<ReasonableResponse>
     }
 
     public ReasonableResponseEntity(ReasonableResponse body, MultiValueMap<String, String> headers, int rawStatus) {
-        super(body, headers, rawStatus);
+        super(body, headers, HttpStatus.valueOf(rawStatus));
     }
 }
