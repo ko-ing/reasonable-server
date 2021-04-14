@@ -16,7 +16,7 @@ public class AuthController {
     @PostMapping(value = "/auth/signUp")
     public void signUp(@RequestBody SignUpDto dto) {
         // fixme: validate before inserting
-        userAuthorityService.checkAndAddUser(dto);
+        userAuthorityService.checkAndSaveUser(dto);
     }
 
     @PostMapping(value = "/auth/signOut")

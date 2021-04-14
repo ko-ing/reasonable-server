@@ -22,7 +22,7 @@ public class UserAuthorityService {
     }
 
     @Transactional
-    public void checkAndAddUser(SignUpDto dto) {
+    public void checkAndSaveUser(SignUpDto dto) {
         Set<Authority> auths = new HashSet<>();
 
         Boolean exists = userService.checkExistence(dto.getUserAccountId());

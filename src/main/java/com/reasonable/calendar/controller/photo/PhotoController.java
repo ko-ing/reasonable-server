@@ -9,11 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +18,8 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping(value = "/photo")
-    public void savePhoto(@RequestParam MultipartFile photo, @RequestParam Long takenAt, Authentication authentication) {
-        photoS3Service.save(PhotoDto.builder()
+    public String savePhoto(@RequestParam MultipartFile photo, @RequestParam Long takenAt, Authentication authentication) {
+        return photoS3Service.save(PhotoDto.builder()
             .takenAt(LocalDateTimeUtil.longToLDT(takenAt))
             .userId(authentication.getName())
             .photo(photo)
@@ -33,7 +29,7 @@ public class PhotoController {
     @GetMapping(value = "/photo")
     public List<String> findAllPhotoByUser(Authentication authentication) {
         String userId = authentication.getName();
-        return photoS3Service.find(userId);
+        return photoS3Service.findAllByUserId(userId);
     }
 
     @GetMapping(value = "/photo/{date}")
