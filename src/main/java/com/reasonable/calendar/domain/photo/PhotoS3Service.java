@@ -28,8 +28,4 @@ public class PhotoS3Service {
         return url;
     }
 
-    public List<String> findAllByUserId(String userId) {
-        List<Photo> photos = photoService.find(userId);
-        return photos.stream().map(Photo::getS3Url).collect(Collectors.toList());
-    }
 }

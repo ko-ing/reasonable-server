@@ -5,6 +5,8 @@ import com.reasonable.calendar.domain.photo.PhotoS3Service;
 import com.reasonable.calendar.domain.photo.PhotoService;
 import com.reasonable.calendar.util.LocalDateTimeUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +29,10 @@ public class PhotoController {
     }
 
     @GetMapping(value = "/photo")
-    public List<String> findAllPhotoByUser(Authentication authentication) {
+    public List<String> findAllPhotoByUser(Authentication authentication, @RequestParam Integer page, @RequestParam Integer size) {
         String userId = authentication.getName();
-        return photoS3Service.findAllByUserId(userId);
+        Pageable paging = PageRequest.of(page, size);
+        return photoService.findPhotoUrls(userId, paging);
     }
 
     @GetMapping(value = "/photo/{date}")

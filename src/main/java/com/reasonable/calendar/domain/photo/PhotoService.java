@@ -1,6 +1,8 @@
 package com.reasonable.calendar.domain.photo;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -26,12 +28,17 @@ public class PhotoService {
             .build());
     }
 
-    public List<Photo> find(UUID userId) {
-        return photoRepository.findAllByUserId(userId);
-    }
 
     public List<Photo> find(String userId) {
-        return this.find(UUID.fromString(userId));
+        return photoRepository.findAllByUserId(UUID.fromString(userId));
+    }
+
+    public List<Photo> find(String userId, Pageable page) {
+        return photoRepository.findAllByUserId(UUID.fromString(userId), page);
+    }
+
+    public List<String> findPhotoUrls(String userId, Pageable page) {
+        return this.find(userId, page).stream().map(Photo::getS3Url).collect(Collectors.toList());
     }
 
     public List<String> find(String userId, LocalDateTime date) {
