@@ -20,11 +20,12 @@ public class PhotoService {
         return photoRepository.save(photo);
     }
 
-    public Photo save(PhotoDto dto, String url) {
+    public Photo save(PhotoDto dto, String url, String analyzed) {
         return this.save(Photo.builder()
             .s3Url(url)
             .takenAt(dto.getTakenAt())
             .userId(UUID.fromString(dto.getUserId()))
+            .analyzedRaw(analyzed)
             .build());
     }
 

@@ -1,7 +1,7 @@
 package com.reasonable.calendar.controller.photo;
 
 import com.reasonable.calendar.domain.photo.PhotoDto;
-import com.reasonable.calendar.domain.photo.PhotoS3Service;
+import com.reasonable.calendar.domain.s3.PhotoS3RekognitionService;
 import com.reasonable.calendar.domain.photo.PhotoService;
 import com.reasonable.calendar.util.LocalDateTimeUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +16,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PhotoController {
-    private final PhotoS3Service photoS3Service;
+    private final PhotoS3RekognitionService photoS3RekognitionService;
     private final PhotoService photoService;
 
     @PostMapping(value = "/photo")
     public String savePhoto(@RequestParam MultipartFile photo, @RequestParam Long takenAt, Authentication authentication) {
-        return photoS3Service.save(PhotoDto.builder()
+        return photoS3RekognitionService.save(PhotoDto.builder()
             .takenAt(LocalDateTimeUtil.longToLDT(takenAt))
             .userId(authentication.getName())
             .photo(photo)
