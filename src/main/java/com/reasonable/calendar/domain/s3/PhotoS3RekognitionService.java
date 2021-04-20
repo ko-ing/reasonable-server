@@ -1,6 +1,6 @@
 package com.reasonable.calendar.domain.s3;
 
-import com.reasonable.calendar.domain.photo.PhotoDto;
+import com.reasonable.calendar.controller.photo.PhotoDto;
 import com.reasonable.calendar.domain.photo.PhotoService;
 import com.reasonable.calendar.domain.rekognition.RekognitionService;
 import lombok.RequiredArgsConstructor;

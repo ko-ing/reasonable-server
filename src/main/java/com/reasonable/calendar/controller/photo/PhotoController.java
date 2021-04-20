@@ -1,6 +1,5 @@
 package com.reasonable.calendar.controller.photo;
 
-import com.reasonable.calendar.domain.photo.PhotoDto;
 import com.reasonable.calendar.domain.s3.PhotoS3RekognitionService;
 import com.reasonable.calendar.domain.photo.PhotoService;
 import com.reasonable.calendar.util.LocalDateTimeUtil;
@@ -29,10 +28,10 @@ public class PhotoController {
     }
 
     @GetMapping(value = "/photo")
-    public List<String> findAllPhotoByUser(Authentication authentication, @RequestParam Integer page, @RequestParam Integer size) {
+    public List<PhotoDto> findAllPhotoByUser(Authentication authentication, @RequestParam Integer page, @RequestParam Integer size) {
         String userId = authentication.getName();
         Pageable paging = PageRequest.of(page, size);
-        return photoService.findPhotoUrls(userId, paging);
+        return photoService.findPhotos(userId, paging);
     }
 
     @GetMapping(value = "/photo/{date}")
