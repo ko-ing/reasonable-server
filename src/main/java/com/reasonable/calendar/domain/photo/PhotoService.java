@@ -1,9 +1,10 @@
 package com.reasonable.calendar.domain.photo;
 
+import com.reasonable.calendar.controller.photo.PhotoDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -18,20 +19,26 @@ public class PhotoService {
         return photoRepository.save(photo);
     }
 
-    public Photo save(PhotoDto dto, String url) {
+    public Photo save(PhotoDto dto, String url, String analyzed) {
         return this.save(Photo.builder()
             .s3Url(url)
             .takenAt(dto.getTakenAt())
             .userId(UUID.fromString(dto.getUserId()))
+            .analyzedRaw(analyzed)
             .build());
     }
 
-    public List<Photo> find(UUID userId) {
-        return photoRepository.findAllByUserId(userId);
-    }
 
     public List<Photo> find(String userId) {
-        return this.find(UUID.fromString(userId));
+        return photoRepository.findAllByUserId(UUID.fromString(userId));
+    }
+
+    public List<Photo> find(String userId, Pageable page) {
+        return photoRepository.findAllByUserId(UUID.fromString(userId), page);
+    }
+
+    public List<PhotoDto> findPhotos(String userId, Pageable page) {
+        return this.find(userId, page).stream().map(PhotoDto::from).collect(Collectors.toList());
     }
 
     public List<String> find(String userId, LocalDateTime date) {

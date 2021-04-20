@@ -1,14 +1,14 @@
 package com.reasonable.calendar.domain.photo;
 
-import com.reasonable.calendar.domain.auth.Authority;
-import com.reasonable.calendar.domain.auth.AuthorityId;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface PhotoRepository extends JpaRepository<Photo, UUID> {
+public interface PhotoRepository extends PagingAndSortingRepository<Photo, UUID> {
     List<Photo> findAllByUserId(UUID userId);
+    List<Photo> findAllByUserId(UUID userId, Pageable pageable);
 }
