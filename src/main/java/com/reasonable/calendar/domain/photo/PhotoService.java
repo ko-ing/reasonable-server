@@ -1,6 +1,7 @@
 package com.reasonable.calendar.domain.photo;
 
 import com.reasonable.calendar.controller.photo.PhotoDto;
+import com.reasonable.calendar.exception.ReasonableException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,22 +29,25 @@ public class PhotoService {
             .build());
     }
 
+    public Photo findByPhotoId(String photoId) {
+        return photoRepository.findById(UUID.fromString(photoId)).orElseThrow(() -> new ReasonableException("No such photo"));
+    }
 
-    public List<Photo> find(String userId) {
+    public List<Photo> findByUserId(String userId) {
         return photoRepository.findAllByUserId(UUID.fromString(userId));
     }
 
-    public List<Photo> find(String userId, Pageable page) {
+    public List<Photo> findByUserId(String userId, Pageable page) {
         return photoRepository.findAllByUserId(UUID.fromString(userId), page);
     }
 
-    public List<PhotoDto> findPhotos(String userId, Pageable page) {
-        return this.find(userId, page).stream().map(PhotoDto::from).collect(Collectors.toList());
+    public List<PhotoDto> findPhotosByUserId(String userId, Pageable page) {
+        return this.findByUserId(userId, page).stream().map(PhotoDto::from).collect(Collectors.toList());
     }
 
-    public List<String> find(String userId, LocalDateTime date) {
+    public List<String> findByUserIdAndDate(String userId, LocalDateTime date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        List<Photo> photos = this.find(userId);
+        List<Photo> photos = this.findByUserId(userId);
         return photos.stream()
             .filter(p -> date.format(formatter).equals(p.getTakenAt().format(formatter)))
             .map(Photo::getS3Url)
