@@ -14,6 +14,6 @@ public class PhotoRefineTest implements CommandLineRunner {
     @Override
     public void run(String... args) {
         System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(exchange, "reasonable.photo", "Hello Message!");
+        rabbitTemplate.convertAndSend(exchange, "reasonable.photo", "273e23d6-d327-4e71-b744-2d95d852d60b");
     }
 }

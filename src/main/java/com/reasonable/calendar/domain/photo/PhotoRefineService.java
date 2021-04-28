@@ -20,6 +20,6 @@ public class PhotoRefineService {
     }
 
     public void refineAndSave(List<FaceDetail> details) {
-
+        System.out.println("HEYHEYEHEYEHEY");
     }
 }

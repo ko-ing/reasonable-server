@@ -6,8 +6,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-
 @Component
 @RequiredArgsConstructor
 public class PhotoRefineListener {
@@ -15,6 +13,7 @@ public class PhotoRefineListener {
 
     @RabbitListener(queues = "photo-refine-queue")
     public void receiveMessage(final Message message) {
-        photoRefineService.refine(Arrays.toString(message.getBody()));
+//        System.out.println(new String(message.getBody()));
+        photoRefineService.refine(new String(message.getBody()));
     }
 }
