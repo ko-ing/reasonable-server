@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PhotoRefineProvider implements CommandLineRunner {
+public class PhotoRefineTest implements CommandLineRunner {
     private static final String exchange = "photo-refine-exchange";
     private final RabbitTemplate rabbitTemplate;
 

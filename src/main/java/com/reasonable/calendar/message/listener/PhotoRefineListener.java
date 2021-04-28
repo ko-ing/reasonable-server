@@ -9,6 +9,7 @@ public class PhotoRefineListener {
 
     @RabbitListener(queues = "photo-refine-queue")
     public void receiveMessage(final Message message) {
+        System.out.println("receiver");
         System.out.println(message);
     }
 }
