@@ -10,7 +10,7 @@ public class PhotoRefineProducer {
     private static final String exchange = "photo-refine-exchange";
     private final RabbitTemplate rabbitTemplate;
 
-    public void send(String message) {
-        rabbitTemplate.convertAndSend(exchange, "reasonable.photo", message);
+    public void send(String photoId) {
+        rabbitTemplate.convertAndSend(exchange, "reasonable.photo", photoId);
     }
 }
