@@ -39,6 +39,6 @@ public class RekognitionService {
             .withAttributes(Attribute.ALL);
         DetectFacesResult result = rekognitionClient.detectFaces(request);
 
-        return JsonUtil.write(result);
+        return JsonUtil.write(result.getFaceDetails());
     }
 }

@@ -31,12 +31,12 @@ public class PhotoController {
     public List<PhotoDto> findAllPhotoByUser(Authentication authentication, @RequestParam Integer page, @RequestParam Integer size) {
         String userId = authentication.getName();
         Pageable paging = PageRequest.of(page, size);
-        return photoService.findPhotos(userId, paging);
+        return photoService.findPhotosByUserId(userId, paging);
     }
 
     @GetMapping(value = "/photo/{date}")
     public List<String> findAllPhotoByUserAndDate(@PathVariable Long date, Authentication authentication) {
         String userId = authentication.getName();
-        return photoService.find(userId, LocalDateTimeUtil.longToLDT(date));
+        return photoService.findByUserIdAndDate(userId, LocalDateTimeUtil.longToLDT(date));
     }
 }
