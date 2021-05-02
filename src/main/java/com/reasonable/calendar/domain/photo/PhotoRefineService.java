@@ -16,11 +16,13 @@ public class PhotoRefineService {
 
     public void refine(String photoId) {
         Photo photo = photoService.findByPhotoId(photoId);
-        List<FaceDetail> result = JsonUtil.read(photo.getAnalyzedRaw(), new TypeReference<>() {});
-        this.refineAndSave(result);
+        List<FaceDetail> faceDetails = JsonUtil.read(photo.getAnalyzedRaw(), new TypeReference<>() {});
+        this.refineAndSave(faceDetails);
     }
 
     public void refineAndSave(List<FaceDetail> details) {
-        System.out.println("HEYHEYEHEYEHEY");
+//        details.forEach(d -> {
+//            d.getEmotions().get(0).getType()
+//        });
     }
 }
