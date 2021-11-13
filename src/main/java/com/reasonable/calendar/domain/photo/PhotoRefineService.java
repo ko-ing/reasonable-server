@@ -3,7 +3,6 @@ package com.reasonable.calendar.domain.photo;
 import com.amazonaws.services.rekognition.model.BoundingBox;
 import com.amazonaws.services.rekognition.model.FaceDetail;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.reasonable.calendar.domain.emotion.EmotionRepository;
 import com.reasonable.calendar.domain.emotion.EmotionService;
 import com.reasonable.calendar.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
